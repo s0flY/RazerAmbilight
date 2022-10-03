@@ -29,7 +29,7 @@ namespace Ambilight.Logic
         /// <param name="newImage">ScreenShot</param>
         public void Process(Bitmap newImage)
         {
-            var map = ImageManipulation.ResizeImage(newImage, 5, 3);
+            var map = ImageManipulation.ResizeImage(newImage, 8, 5);
             map = ImageManipulation.ApplySaturation(map, _settings.Saturation);
             
             ApplyImageToGrid(map);
@@ -51,10 +51,10 @@ namespace Ambilight.Logic
         /// <param name="map">resized screenshot</param>
         private void ApplyImageToGrid(Bitmap map)
         {
-            var upperBulbColor = map.GetPixel(2,0);
-            _linkGrid[2] = new ColoreColor(upperBulbColor.R, upperBulbColor.G, upperBulbColor.B);
-            var downStripColor = map.GetPixel(2,2);
-            _linkGrid[3] = new ColoreColor(downStripColor.R, downStripColor.G, downStripColor.B);
+            var rightBulbColor = map.GetPixel(7, 2);
+            _linkGrid[1] = new ColoreColor(rightBulbColor.R, rightBulbColor.G, rightBulbColor.B);
+            var leftBulbColor = map.GetPixel(0,2);
+            _linkGrid[2] = new ColoreColor(leftBulbColor.R, leftBulbColor.G, leftBulbColor.B);
         }
     }
 }

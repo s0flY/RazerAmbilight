@@ -7,9 +7,8 @@ namespace Ambilight.DesktopDuplication
     {
         public DesktopDuplicationException(string message)
             : base(message) { }
+
         public DesktopDuplicationException(string message, Exception innerException)
                     : base(message, innerException) { }
-
-
     }
 }

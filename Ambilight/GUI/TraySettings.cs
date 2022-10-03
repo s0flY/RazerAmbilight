@@ -105,13 +105,13 @@ namespace Ambilight.GUI
                 Settings.Default.Save();
             });
 
-            // MenuItem _mouseEnabled = new MenuItem("Mouse enabled", (sender, args) =>
-            // {
-            //     EnableMenuItemOnClick(sender, args);
-            //     Properties.Settings.Default.mouseEnabled = (sender as MenuItem).Checked;
-            //     MouseEnabled = (sender as MenuItem).Checked;
-            //     Properties.Settings.Default.Save();
-            // });
+            var mouseEnabled = new MenuItem("Mouse enabled", (sender, args) =>
+            {
+                EnableMenuItemOnClick(sender);
+                Settings.Default.mouseEnabled = ((MenuItem)sender).Checked;
+                KeyboardEnabled = ((MenuItem)sender).Checked;
+                Settings.Default.Save();
+            });
 
             var linkEnabled = new MenuItem("LinkChroma enabled", (sender, args) =>
             {
@@ -132,8 +132,8 @@ namespace Ambilight.GUI
 
             keyboardEnabled.Checked = Settings.Default.keyboardEnabled;
             KeyboardEnabled = Settings.Default.keyboardEnabled;
-            // _mouseEnabled.Checked = Properties.Settings.Default.mouseEnabled;
-            MouseEnabled = false; //Properties.Settings.Default.mouseEnabled;
+            mouseEnabled.Checked = Properties.Settings.Default.mouseEnabled;
+            MouseEnabled = Properties.Settings.Default.mouseEnabled;
             linkEnabled.Checked = Settings.Default.linkEnabled;
             LinkEnabled = Settings.Default.linkEnabled;
             autostart.Checked = CheckAutostart(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "/Ambilight.lnk");
@@ -144,14 +144,13 @@ namespace Ambilight.GUI
 
             contextMenu.MenuItems.Add("Change max fps", ChangeTickrateHandler);
             contextMenu.MenuItems.Add("Change Saturation", ChangeSaturationHandler);
-            contextMenu.MenuItems.Add("Set Manual keyboard size", ChangeKeyboardSizeHandler);
-            contextMenu.MenuItems.Add("Change Monitor", ChangeMonitorHandler);
+            //contextMenu.MenuItems.Add("Change Monitor", ChangeMonitorHandler);
             contextMenu.MenuItems.Add("-");
             contextMenu.MenuItems.Add(autostart);
             contextMenu.MenuItems.Add("-");
 
             contextMenu.MenuItems.Add(keyboardEnabled);
-            // contextMenu.MenuItems.Add(_mouseEnabled);
+            contextMenu.MenuItems.Add(mouseEnabled);
             contextMenu.MenuItems.Add(linkEnabled);
             
             contextMenu.MenuItems.Add("-");
@@ -166,18 +165,19 @@ namespace Ambilight.GUI
             };
 
             _logger.Info("Keyboard Enabled: " + keyboardEnabled.Checked);
-            // logger.Info("Mouse Enabled: " + _mouseEnabled.Checked);
+            _logger.Info("Mouse Enabled: " + mouseEnabled.Checked);
             _logger.Info("ChromaLink Enabled: " + linkEnabled.Checked);
 
             _notifyIcon.ContextMenu = contextMenu;
             Application.Run();
         }
 
-        private void ChangeMonitorHandler(object sender, EventArgs e)
+        /*private void ChangeMonitorHandler(object sender, EventArgs e)
         {
             var monitorWindow = new Monitor(MonitorChangedHandler,Settings.Default.monitor);
             monitorWindow.Show();
         }
+
         private void MonitorChangedHandler(object sender, EventArgs e)
         {
             Settings.Default.monitor = ((ComboBox)sender).SelectedIndex;
@@ -190,7 +190,7 @@ namespace Ambilight.GUI
                 Environment.Exit(0);
             }
                 
-        }
+        }*/
 
         /// <summary>
         /// Enables a MenuItem to be checkable
